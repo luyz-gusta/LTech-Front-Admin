@@ -1,0 +1,247 @@
+@use "/src/styles/variables" as *;
+@use "/src/styles/mixins" as *;
+
+.container {
+    @include flexbox($direction: column);
+    min-height: 100vh;
+    width: 100%;
+
+    main {
+        @include flexbox();
+        width: 100%;
+        background-color: #fff;
+        height: calc(100vh - 100px);
+    }
+
+    footer {
+        @include flexbox($justify: center, $align: center);
+
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        width: 100%;
+        height: 100px;
+        color: $white-default;
+        background-color: $secondary-color;
+    }
+}
+
+.imgSection {
+    width: auto;
+    height: 100%;
+
+    @include responsive($custom: 1300px) {
+        height: 100%;
+        max-width: 50%;
+        object-fit: fill;
+    }
+
+    @include responsive($breakpoint: medium) {
+        display: none;
+    }
+}
+
+.boxForm {
+    @include flexbox($justify: center, $align: center);
+
+    height: 100%;
+    width: 100%;
+
+    @include responsive($breakpoint: medium) {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url(../../assets/gradient.svg);
+    }
+
+    form {
+        @include flexbox($justify: center, $align: center, $direction: column);
+        height: max-content;
+        width: 70%;
+
+        h1 {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        @include responsive($custom: 600px) {
+            width: 85%;
+        }
+    }
+}
+
+.formGroup {
+    position: relative;
+    padding: 20px 0 0;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.formField {
+    font-family: inherit;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: $black-default;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+
+    @include responsive($breakpoint: medium) {
+        border-bottom: 2px solid $white-default;
+    }
+}
+
+.formField::placeholder {
+    color: transparent;
+}
+
+.formField:placeholder-shown ~ .formLabel {
+    font-size: 17px;
+    cursor: text;
+    top: 20px;
+}
+
+.formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #9b9b9b;
+    pointer-events: none;
+
+    @include responsive($breakpoint: medium) {
+        color: $white-default;
+    }
+}
+
+.formField:focus {
+    padding-bottom: 6px;
+    font-weight: 400;
+    border-width: 3px;
+    border-image: linear-gradient(to right, $primary-color, rgba($color: $primary-color, $alpha: 0.6));
+    border-image-slice: 1;
+}
+
+.formField:focus ~ .formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: $primary-color;
+    font-weight: 700;
+}
+
+.boxBtn {
+    @include flexbox($justify: space-between, $align: center);
+    width: 100%;
+}
+
+.formGroupCheckbox {
+    @include flexbox($justify: center, $align: start, $gap: 8px);
+
+    input {
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        border: 1px solid $dark-gray;
+    }
+
+    input:checked{
+        appearance: auto;
+        background-color: $primary-color;
+        border: 1px solid $dark-gray;
+    }
+}
+.btnSend {
+    @include flexbox($justify: center, $align: center);
+
+    padding: 24px 40px;
+    width: max-content;
+    height: 36px;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    color: $white-default;
+    background-color: #311070;
+}
+
+/* reset input */
+.formField:required,
+.formField:invalid {
+    box-shadow: none;
+}
+
+.inputPassword{
+    position: relative;
+}
+
+.iconPassword{
+    position: absolute;
+    right: 0;
+    top: 28px;
+    font-size: 22px;
+    transition: all .5s;
+
+    &:hover{
+
+        color: $primary-color;
+    }
+}
+
+.squaredThree {
+    width: 20px;
+    position: relative;
+  
+    label {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba($color: #311070, $alpha: .10);
+      border-radius: 4px;
+      border: 1px solid rgba($color: #311070, $alpha: .25);
+      box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
+        0px 1px 0px rgba(255, 255, 255, 0.4);
+  
+      &:after {
+        content: "";
+        width: 13px;
+        height: 7px;
+        position: absolute;
+        top: 6px;
+        left: 5px;
+        border: 2px solid #311070;
+        border-top: none;
+        border-right: none;
+        background: transparent;
+        opacity: 0;
+        transform: rotate(-45deg);
+        transition: opacity 0.2s ease-in-out;
+      }
+  
+      &:hover:after {
+        opacity: 0.3;
+      }
+    }
+  
+    input[type="checkbox"] {
+      visibility: hidden;
+  
+      &:checked + label:after {
+        opacity: 1;
+      }
+    }
+  }
+  

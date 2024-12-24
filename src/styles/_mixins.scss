@@ -1,0 +1,46 @@
+@mixin flexbox($justify: start, $align: start, $direction: row, $gap: 0px) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin gridcolumns($gap: "auto", $minwidth: "auto", $justify: start, $maxwidth: 1fr, $maxcolumns: auto-fit) {
+    display: grid;
+    grid-template-columns: repeat($maxcolumns, minmax($minwidth, $maxwidth));
+    gap: $gap;
+    justify-content: $justify;
+    width: 100%;
+    margin: 0 auto;
+}
+
+@mixin truncated-text($lineclamp){
+    display: -webkit-box;
+    -webkit-line-clamp: $lineclamp;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+
+@mixin responsive($breakpoint: auto, $custom: "") {
+    @if $custom != "" {
+        @media (max-width: $custom) {
+            @content;
+        }
+    } @else if $breakpoint == small {
+        @media (max-width: 600px) {
+            @content;
+        }
+    } @else if $breakpoint == medium {
+        @media (max-width: 900px) {
+            @content;
+        }
+    } @else if $breakpoint == large {
+        @media (max-width: 1200px) {
+            @content;
+        }
+    }
+}

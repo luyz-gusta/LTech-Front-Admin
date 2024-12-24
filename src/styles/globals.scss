@@ -1,0 +1,61 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+ul, ol, li {
+  list-style: none!important;
+}
+
+body {
+  background-color: #F1F1F1 !important;
+}
+
+button {
+  background: unset !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+
+.css-dip3t8 {
+  padding-top: 10px;
+  color: white;
+  /* background-color: #1e1e1e !important; */
+  background-color: $secondary-color !important;
+}
+
+.css-18unl23 {
+  background-color: transparent !important;
+}
+
+.css-1wvake5 {
+  border-color: $secondary-color !important;
+}
+
+.css-1tqrhto>.ps-menu-button:hover {
+  background-color: $primary-color !important;
+}
+
+.css-16jesut>.ps-menu-button:hover {
+  background-color: $primary-color !important;
+}
+
+.css-1t8x7v1>.ps-menu-button:hover {
+  background-color: $primary-color !important;
+}
