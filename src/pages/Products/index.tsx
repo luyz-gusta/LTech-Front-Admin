@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { baseApi } from "../../../services/api";
 import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
-import User from "../../utils/types/user";
-import styles from "./styles.module.scss";
-import { baseApi } from "../../../services/api";
-import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { useContexts } from "../../hooks/useContexts";
+import Product from "../../utils/types/product";
+import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
+import styles from "./styles.module.scss";
 
-export default function Users() {
-  const [users, setUsers] = useState<User[] | null>(null);
+export default function Products() {
+  const [products, setProducts] = useState<Product[] | null>(null);
   const { setIsActiveLoading } = useContexts();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-        setIsActiveLoading(true);
-      const response = await baseApi.get<ResponseAPI<SuccessResponse<User[]>>>(
-        "usuarios/all"
-      );
+    const fetchProducts = async () => {
+      setIsActiveLoading(true);
+      const response = await baseApi.get<
+        ResponseAPI<SuccessResponse<Product[]>>
+      >("produtos/all");
 
-      setUsers(response.data.body.data);
+      setProducts(response.data.body.data);
       setIsActiveLoading(false);
     };
 
-    fetchUsers();
+    fetchProducts();
   }, [setIsActiveLoading]);
 
   return (
     <Container>
-      <SectionTitle title="Usuário" />
+      <SectionTitle title="Produtos" />
       <div className={`table-responsive mt-4 ${styles.tableResponsive}`}>
         <table
           className={`table caption-top ${styles.table}`}
@@ -41,20 +41,19 @@ export default function Users() {
                 className="col text-center"
                 style={{ cursor: "pointer" }}
               >
-                Foto de Perfil
+                Imagem
               </th>
               <th scope="col" className="col" style={{ cursor: "pointer" }}>
-                Nome
+                Nome Produto
               </th>
               <th scope="col" className="col" style={{ cursor: "pointer" }}>
-                Email
+                Categoria
               </th>
-              <th
-                scope="col"
-                className="col text-center"
-                style={{ cursor: "pointer" }}
-              >
-                Tipo Usuário
+              <th scope="col" className="col text-center" style={{ cursor: "pointer" }}>
+                Preço Venda
+              </th>
+              <th scope="col" className="col text-center" style={{ cursor: "pointer" }}>
+                Preço Promoção
               </th>
               <th
                 scope="col"
@@ -73,35 +72,44 @@ export default function Users() {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-            {users?.map((user) => (
-              <tr key={user._id}>
+            {products?.map((product) => (
+              <tr key={product._id}>
                 <td className="text-center">
                   <img
-                    src={user.fotoPerfil}
+                    src={product.fotos[0]}
                     alt="Imagem de usuário"
                     className={styles.profileUser}
                   />
                 </td>
-                <td className="align-middle">{user.nome}</td>
-                <td className="align-middle">{user.email}</td>
-                <td className="align-middle text-center">{user.tipoUsuario}</td>
+                <td className="align-middle">{product.nome}</td>
+                <td className="align-middle">{product.categoria.nome}</td>
+                <td className="align-middle text-center">
+                  {product.precoVenda.toLocaleString("pt-br", {
+                    minimumFractionDigits: 2,
+                  })}
+                </td>
+                <td className="align-middle text-center">
+                  {product.precoPromocao ? product.precoPromocao.toLocaleString("pt-br", {
+                    minimumFractionDigits: 2,
+                  }) : ' - '}
+                </td>
                 <td className="align-middle">
                   <div className="d-flex justify-content-center">
                     <span
                       onClick={() => {
-                        setUsers(
-                          users.map((userSearch) =>
-                            userSearch._id === user._id
-                              ? { ...user, ativo: !user.ativo }
-                              : userSearch
+                        setProducts(
+                          products.map((productSearch) =>
+                            productSearch._id === product._id
+                              ? { ...product, ativo: !product.ativo }
+                              : productSearch
                           )
                         );
                       }}
                       className={`${styles.tag} ${
-                        user.ativo ? styles.enable : styles.disable
+                        product.ativo ? styles.enable : styles.disable
                       }`}
                     >
-                      {user.ativo ? "Ativo" : "Desativado"}
+                      {product.ativo ? "Ativo" : "Desativado"}
                     </span>
                   </div>
                 </td>

@@ -5,7 +5,7 @@ import {
   Sidebar,
   sidebarClasses,
 } from "react-pro-sidebar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegFolder, FaRegUser } from "react-icons/fa";
 import { LuTags } from "react-icons/lu";
 import { AiOutlineShop } from "react-icons/ai";
@@ -21,7 +21,6 @@ export default function NavBar() {
   const auth = useAuth()
 
   const isActive = (path: string) => {
-    console.log(location.pathname == path);
     return location.pathname === path;
   };
 
@@ -64,7 +63,7 @@ export default function NavBar() {
               margin: "8px 0px",
               padding: "0px 20px",
 
-              "&:first-child": {
+              "&:first-of-type": {
                 marginTop: "32px !important",
               },
             },
@@ -83,7 +82,7 @@ export default function NavBar() {
         >
           <MenuItem
             icon={<FaRegUser size={20} />}
-            href="/admin"
+            component={<Link to="/admin" />}
             active={isActive("/admin")}
           >
             Usuários
@@ -91,21 +90,21 @@ export default function NavBar() {
           <MenuItem
             icon={<LuTags size={20} />}
             active={isActive("/admin/marcas")}
-            href="/admin/marcas"
+            component={<Link to="/admin/marcas" />}
           >
             Marcas
           </MenuItem>
           <MenuItem
             icon={<FaRegFolder size={20} />}
-            href="/admin/categorias"
+            component={<Link to="/admin/categorias" />}
             active={isActive("/admin/categorias")}
           >
             Categorias
           </MenuItem>
           <MenuItem
             icon={<AiOutlineShop size={22} />}
-            href="/admin/usuarios"
-            active={isActive("/admin/usuarios")}
+            component={<Link to="/admin/produtos" />}
+            active={isActive("/admin/produtos")}
           >
             Produtos
           </MenuItem>
@@ -127,7 +126,7 @@ export default function NavBar() {
             margin: "8px 0px",
             padding: "0px 20px",
 
-            "&:first-child": {
+            "&:first-of-type": {
               marginTop: "32px !important",
             },
           },
@@ -146,7 +145,7 @@ export default function NavBar() {
       >
         <MenuItem
           icon={<GoGear size={20} />}
-          href="/admin/conta"
+          component={<Link to="/admin/conta" />}
         >
           Configurações
         </MenuItem>
