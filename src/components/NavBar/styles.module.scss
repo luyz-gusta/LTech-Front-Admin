@@ -1,0 +1,24 @@
+@use "/src/styles/variables" as *;
+@use "/src/styles/mixins" as *;
+
+.boxImg {
+    @include flexbox($justify: center);
+    width: 100%;
+    padding: 20px 48px 0px 0px;
+}
+
+.menuClasses__btn {
+    transition: "all 0.3s";
+    padding-left: "0px !important";
+    padding-right: "0px !important";
+    & > span {
+        z-index: 100;
+    }
+    &:hover {
+        background-color: $danger;
+    }
+}
+
+.activeItem {
+    background-color: $tertiary-color !important;
+}

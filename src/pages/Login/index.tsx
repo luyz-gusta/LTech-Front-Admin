@@ -5,17 +5,17 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
-  const [email, setEmail] = useState<string>("");
+  const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
   const [visible, setVisible] = useState(false);
-  const auth = useAuth()
+  const auth = useAuth();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    auth.login(email, password, checked ,'/admin')
-  }
+    auth.login(user, password, checked, "/admin");
+  };
 
   return (
     <section className={`${styles.container}`}>
@@ -30,17 +30,17 @@ export default function Login() {
             <h1>Bem vindo de volta ao L-Tech System</h1>
             <div className={`${styles.formGroup} ${styles.field}`}>
               <input
-                type="email"
+                type="text"
                 className={`${styles.formField}`}
-                placeholder="Email"
+                placeholder="Usuário"
                 required
-                name="email"
+                name="user"
                 autoComplete="off"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
               />
-              <label htmlFor="email" className={styles.formLabel}>
-                Email
+              <label htmlFor="user" className={styles.formLabel}>
+                Usuário
               </label>
             </div>
             <div className={`${styles.formGroup} ${styles.inputPassword}`}>
@@ -81,7 +81,9 @@ export default function Login() {
                 </div>
                 <label htmlFor="rememberPassword">Lembrar de mim</label>
               </div>
-              <button type="submit" className={`${styles.btnSend}`}>Entrar</button>
+              <button type="submit" className={`${styles.btnSend}`}>
+                Entrar
+              </button>
             </div>
           </form>
         </div>

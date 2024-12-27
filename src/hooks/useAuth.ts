@@ -11,7 +11,7 @@ export const useAuth = () => {
   const { setUser, setIsActiveLoading, isActiveLoading } = useContexts();
 
   const login = async (
-    email: string,
+    usuario: string,
     password: string,
     isSalved: boolean,
     route: string
@@ -19,7 +19,7 @@ export const useAuth = () => {
     setIsActiveLoading(true);
     try {
       const response = await baseApi.post<ResponseAPI<User>>("/login", {
-        email,
+        usuario,
         senha: password,
       });
 
