@@ -1,0 +1,14 @@
+@use "/src/styles/variables" as *;
+@use "/src/styles/mixins" as *;
+
+.btn {
+    @include flexbox($justify: center, $align: center, $gap: 16px);
+    padding: 8px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    width: 100%;
+
+    color: $white-default;
+    background-color: $fourth-color;
+}

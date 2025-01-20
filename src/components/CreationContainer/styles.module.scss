@@ -1,0 +1,45 @@
+@use "/src/styles/variables" as *;
+@use "/src/styles/mixins" as *;
+
+
+.container{
+    @include flexbox($direction: column, $gap: 36px)
+}
+
+.title{
+    @include flexbox($gap: 12px, $align: center);
+
+    width: 100%;
+    height: max-content;
+    padding: 24px 36px;
+    border-radius: 8px;
+
+    border: 0.3px solid #B9B9B9;
+    background-color: $white-default;
+    color: $secondary-color;
+
+    h1, svg{
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+    }
+}
+
+.box{
+    @include flexbox($direction: column, $gap: 12px);
+
+    width: 100%;
+    height: max-content;
+    padding: 24px 36px;
+    border-radius: 8px;
+
+    border: 0.3px solid #B9B9B9;
+    background-color: $white-default;
+    
+    h3{
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+        text-align: center;
+        width: 100%;
+        color: $secondary-color;
+    }
+}

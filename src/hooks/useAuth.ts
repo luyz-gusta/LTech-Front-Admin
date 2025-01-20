@@ -1,3 +1,4 @@
+import { SuccessResponse } from './../utils/types/response';
 import { useNavigate } from "react-router-dom";
 import { baseApi } from "./../../services/api";
 import { useContexts } from "./useContexts";
@@ -18,14 +19,14 @@ export const useAuth = () => {
   ) => {
     setIsActiveLoading(true);
     try {
-      const response = await baseApi.post<ResponseAPI<User>>("/login", {
+      const response = await baseApi.post<ResponseAPI<SuccessResponse<User>>>("/login", {
         usuario,
         senha: password,
       });
 
       toast.success('Login realizado com sucesso!');
 
-      const user: User = response.data.body;
+      const user: User = response.data.body.data;
       setUser(user);
 
       if (isSalved) {

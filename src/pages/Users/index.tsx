@@ -7,28 +7,43 @@ import { baseApi } from "../../../services/api";
 import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { useContexts } from "../../hooks/useContexts";
+import filterTable from "../../utils/filterTable";
+import { useNavigate } from "react-router-dom";
 
 export default function Users() {
-  const [users, setUsers] = useState<User[] | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [usersFixed, setUsersFixed] = useState<User[]>([]);
   const { setIsActiveLoading } = useContexts();
+  const [textInput, setTextInput] = useState<string>("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUsers = async () => {
-        setIsActiveLoading(true);
+      setIsActiveLoading(true);
       const response = await baseApi.get<ResponseAPI<SuccessResponse<User[]>>>(
         "usuarios/all"
       );
 
       setUsers(response.data.body.data);
+      setUsersFixed(response.data.body.data);
       setIsActiveLoading(false);
     };
 
     fetchUsers();
   }, [setIsActiveLoading]);
 
+  const handleFilterUsers = (textFilter: string) => {
+    filterTable(setTextInput, textFilter, setUsers, usersFixed);
+  };
+
   return (
     <Container>
-      <SectionTitle title="Usuário" />
+      <SectionTitle
+        onClick={() => navigate('/admin/criar-usuario')}
+        title="Usuário"
+        valueInput={textInput}
+        onChange={handleFilterUsers}
+      />
       <div className={`table-responsive mt-4 ${styles.tableResponsive}`}>
         <table
           className={`table caption-top ${styles.table}`}

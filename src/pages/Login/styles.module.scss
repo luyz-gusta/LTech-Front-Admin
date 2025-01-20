@@ -172,7 +172,7 @@
     border: none;
     border-radius: 6px;
     color: $white-default;
-    background-color: #311070;
+    background-color: $fourth-color;
 }
 
 /* reset input */
@@ -209,9 +209,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      background: rgba($color: #311070, $alpha: .10);
+      background: rgba($color: $fourth-color, $alpha: .10);
       border-radius: 4px;
-      border: 1px solid rgba($color: #311070, $alpha: .25);
+      border: 1px solid rgba($color: $fourth-color, $alpha: .25);
       box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
         0px 1px 0px rgba(255, 255, 255, 0.4);
   
@@ -222,7 +222,7 @@
         position: absolute;
         top: 6px;
         left: 5px;
-        border: 2px solid #311070;
+        border: 2px solid $fourth-color;
         border-top: none;
         border-right: none;
         background: transparent;

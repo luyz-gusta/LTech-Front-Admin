@@ -7,10 +7,13 @@ import { useContexts } from "../../hooks/useContexts";
 import Product from "../../utils/types/product";
 import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
 import styles from "./styles.module.scss";
+import filterTable from "../../utils/filterTable";
 
 export default function Products() {
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productsFixed, setProductsFixed] = useState<Product[]>([]);
   const { setIsActiveLoading } = useContexts();
+  const [textInput, setTextInput] = useState<string>("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,15 +23,25 @@ export default function Products() {
       >("produtos/all");
 
       setProducts(response.data.body.data);
+      setProductsFixed(response.data.body.data);
       setIsActiveLoading(false);
     };
 
     fetchProducts();
   }, [setIsActiveLoading]);
 
+  const handleFilterProducts = (textFilter: string) => {
+    filterTable(setTextInput, textFilter, setProducts, productsFixed);
+  };
+
   return (
     <Container>
-      <SectionTitle title="Produtos" />
+      <SectionTitle
+        onClick={() => {}}
+        title="Produtos"
+        valueInput={textInput}
+        onChange={handleFilterProducts}
+      />
       <div className={`table-responsive mt-4 ${styles.tableResponsive}`}>
         <table
           className={`table caption-top ${styles.table}`}
@@ -49,10 +62,18 @@ export default function Products() {
               <th scope="col" className="col" style={{ cursor: "pointer" }}>
                 Categoria
               </th>
-              <th scope="col" className="col text-center" style={{ cursor: "pointer" }}>
+              <th
+                scope="col"
+                className="col text-center"
+                style={{ cursor: "pointer" }}
+              >
                 Preço Venda
               </th>
-              <th scope="col" className="col text-center" style={{ cursor: "pointer" }}>
+              <th
+                scope="col"
+                className="col text-center"
+                style={{ cursor: "pointer" }}
+              >
                 Preço Promoção
               </th>
               <th
@@ -89,9 +110,11 @@ export default function Products() {
                   })}
                 </td>
                 <td className="align-middle text-center">
-                  {product.precoPromocao ? product.precoPromocao.toLocaleString("pt-br", {
-                    minimumFractionDigits: 2,
-                  }) : ' - '}
+                  {product.precoPromocao
+                    ? product.precoPromocao.toLocaleString("pt-br", {
+                        minimumFractionDigits: 2,
+                      })
+                    : " - "}
                 </td>
                 <td className="align-middle">
                   <div className="d-flex justify-content-center">

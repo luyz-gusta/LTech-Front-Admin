@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../components/Layout/RootLayout";
-import Users from "../pages/Users";
-import Login from "../pages/Login";
-import Categories from "../pages/Categories";
-import Products from "../pages/Products";
 import Brands from "../pages/Brands";
+import Categories from "../pages/Categories";
+import CreateUser from "../pages/Creations/Users";
+import Login from "../pages/Login";
+import Products from "../pages/Products";
+import Users from "../pages/Users";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Users /> },
+      { path: "criar-usuario", element: <CreateUser /> },
       { path: "marcas", element: <Brands /> },
       { path: "categorias", element: <Categories /> },
       { path: "produtos", element: <Products /> },
@@ -24,3 +26,4 @@ const router = createBrowserRouter([
 ]);
 
 export { router };
+

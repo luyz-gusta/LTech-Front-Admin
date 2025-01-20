@@ -52,6 +52,10 @@ body {
   }
 }
 
+._loading_overlay_spinner{
+  z-index: 2000;
+}
+
 .table-dark {
   --bs-table-bg: #fff !important;
 }

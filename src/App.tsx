@@ -8,16 +8,32 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "swiper/css";
 import "react-toastify/dist/ReactToastify.css";
 import './styles/globals.scss'
+import { useEffect } from "react";
+import { baseApi } from "../services/api";
 
 
 function App() {
-  const { isActiveLoading } = useContexts();
+  const { isActiveLoading, setIsActiveLoading, textLoading, setTextLoading} = useContexts();
+
+  useEffect(() => {
+    const fetchStarted = async () => {
+      setTextLoading('Atualizando o sistema.')
+      setIsActiveLoading(true);
+
+      await baseApi.get('')
+
+      setIsActiveLoading(false);
+      setTextLoading("Carregando ...")
+    }
+
+    fetchStarted()
+  }, [setIsActiveLoading, setTextLoading])
 
   return (
     <LoadingOverlayWrapper
       active={isActiveLoading}
       spinner
-      text="Carregando ..."
+      text={textLoading}
     >
       <ToastContainer autoClose={3000} />
       <RouterProvider router={router} />

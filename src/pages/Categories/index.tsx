@@ -10,7 +10,9 @@ import { useContexts } from "../../hooks/useContexts";
 
 export default function Categories() {
   const [categories, setCategories] = useState<Category[] | null>(null);
+  const [categoriesFixed, setCategoriesFixed] = useState<Category[] | null>(null);
   const { setIsActiveLoading } = useContexts();
+  const [textInput, setTextInput] = useState<string>("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -20,15 +22,32 @@ export default function Categories() {
       >("categorias/all");
 
       setCategories(response.data.body.data);
+      setCategoriesFixed(response.data.body.data);
       setIsActiveLoading(false);
     };
 
     fetchCategories();
   }, [setIsActiveLoading]);
 
+  const handleFilter = (textFilter: string) => {
+    setTextInput(textFilter);
+
+    if (textFilter.length == 0) {
+      setCategories(categoriesFixed);
+
+      return
+    }
+
+    const categoriesFilted = categoriesFixed?.filter((category) =>
+      category.nome.toLocaleLowerCase().includes(textFilter.toLocaleLowerCase())
+    );
+
+    setCategories(categoriesFilted == undefined ? [] : categoriesFilted);
+  };
+
   return (
     <Container>
-      <SectionTitle title="Categoria" />
+      <SectionTitle title="Categoria" onChange={handleFilter} valueInput={textInput}/>
       <div className={`table-responsive mt-4 ${styles.tableResponsive}`}>
         <table
           className={`table caption-top ${styles.table}`}
@@ -36,7 +55,7 @@ export default function Categories() {
         >
           <thead className={`table-dark ${styles.table__thead}`}>
             <tr>
-              <th scope="col" className="col text-center py-2">
+              <th scope="col" className="col ps-4 py-2">
                 Nome
               </th>
               <th scope="col" className="col py-2">
@@ -53,7 +72,7 @@ export default function Categories() {
           <tbody className="table-group-divider">
             {categories?.map((category) => (
               <tr key={category._id}>
-                <td className="align-middle text-center">{category.nome}</td>
+                <td className="align-middle ps-4">{category.nome}</td>
                 <td className="align-middle">{category.usuario.nome}</td>
                 <td className="align-middle">
                   <div className="d-flex justify-content-center">
