@@ -6,6 +6,7 @@ import CreateUser from "../pages/Creations/Users";
 import Login from "../pages/Login";
 import Products from "../pages/Products";
 import Users from "../pages/Users";
+import CreateProduct from "../pages/Creations/Products";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
       { path: "marcas", element: <Brands /> },
       { path: "categorias", element: <Categories /> },
       { path: "produtos", element: <Products /> },
+      { path: "criar-produto", element: <CreateProduct /> },
+
     ],
   },
 ]);

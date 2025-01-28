@@ -5,9 +5,11 @@ import { FaPlus } from "react-icons/fa";
 export default function CreationContainer({
   children,
   title,
+  subTitle
 }: {
   children: ReactNode;
   title: string;
+  subTitle: string;
 }) {
   return (
     <div className={`${styles.container}`}>
@@ -16,7 +18,7 @@ export default function CreationContainer({
         <h1>{title}</h1>
       </section>
       <section className={`${styles.box}`}>
-        <h3>Cadastrar {title.split(' ')[1]}</h3>
+        <h3>{subTitle}</h3>
         {children}
       </section>
     </div>

@@ -8,6 +8,7 @@ interface InputProps {
   value: string;
   onChange: (value: string) => void;
   inputWidth?: "max";
+  required?: boolean;
 }
 
 export function Input({
@@ -20,11 +21,13 @@ export function Input({
   value,
   onChange,
   inputWidth,
+  required
 }: InputProps) {
   return (
     <div className={inputWidth == 'max' ? "col-12 col-md-12 mb-4" : "col-12 col-md-6 mb-4"}>
       <label htmlFor={name} className="form-label fw-medium">
         {label}
+        {required && <span className="text-danger">*</span>}
       </label>
       <input
         autoComplete="off"
@@ -34,6 +37,7 @@ export function Input({
         type={type}
         id={name}
         value={value}
+        required={required}
         onChange={(e) => onChange(e.target.value)}
       />
       {error && <p className="my-1 text-danger">{error}</p>}

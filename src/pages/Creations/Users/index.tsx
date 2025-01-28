@@ -4,7 +4,7 @@ import CreationContainer from "../../../components/CreationContainer";
 export default function CreateUser(){
     return(
         <Container>
-            <CreationContainer title="Novo Usuário">
+            <CreationContainer title="Cadastrar Usuário">
                 Teste
             </CreationContainer>
         </Container>

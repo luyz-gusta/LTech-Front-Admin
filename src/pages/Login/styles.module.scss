@@ -16,6 +16,7 @@
     footer {
         @include flexbox($justify: center, $align: center);
 
+        text-align: center;
         font-size: 20px;
         font-style: normal;
         font-weight: 400;

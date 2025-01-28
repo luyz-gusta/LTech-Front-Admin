@@ -1,0 +1,7 @@
+@use "/src/styles/variables" as *;
+@use "/src/styles/mixins" as *;
+
+.formInputs{
+    width: 100%;
+    height: max-content;
+}

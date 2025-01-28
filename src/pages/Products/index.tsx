@@ -8,12 +8,14 @@ import Product from "../../utils/types/product";
 import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
 import styles from "./styles.module.scss";
 import filterTable from "../../utils/filterTable";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFixed, setProductsFixed] = useState<Product[]>([]);
   const { setIsActiveLoading } = useContexts();
   const [textInput, setTextInput] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +32,22 @@ export default function Products() {
     fetchProducts();
   }, [setIsActiveLoading]);
 
+  const toogleStatus = async (product: Product) => {
+    setIsActiveLoading(true);
+    const state = product.ativo ? "ativar" : "desativar";
+    await baseApi
+      .put<ResponseAPI<SuccessResponse<Product>>>(
+        `produtos/${product._id}/${state}`
+      )
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsActiveLoading(false);
+      });
+  };
+
   const handleFilterProducts = (textFilter: string) => {
     filterTable(setTextInput, textFilter, setProducts, productsFixed);
   };
@@ -37,7 +55,7 @@ export default function Products() {
   return (
     <Container>
       <SectionTitle
-        onClick={() => {}}
+        onClick={() => navigate("/admin/criar-produto")}
         title="Produtos"
         valueInput={textInput}
         onChange={handleFilterProducts}
@@ -93,7 +111,7 @@ export default function Products() {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-            {products?.map((product) => (
+            {products?.map((product, index) => (
               <tr key={product._id}>
                 <td className="text-center">
                   <img
@@ -120,13 +138,11 @@ export default function Products() {
                   <div className="d-flex justify-content-center">
                     <span
                       onClick={() => {
-                        setProducts(
-                          products.map((productSearch) =>
-                            productSearch._id === product._id
-                              ? { ...product, ativo: !product.ativo }
-                              : productSearch
-                          )
-                        );
+                        const list = products;
+                        list[index].ativo = list[index].ativo ? false : true;
+                        setProducts(list);
+
+                        toogleStatus(product);
                       }}
                       className={`${styles.tag} ${
                         product.ativo ? styles.enable : styles.disable
