@@ -4,7 +4,7 @@ import SectionTitle from "../../components/SectionTitle";
 import User from "../../utils/types/user";
 import styles from "./styles.module.scss";
 import { baseApi } from "../../../services/api";
-import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { useContexts } from "../../hooks/useContexts";
 import filterTable from "../../utils/filterTable";
@@ -20,7 +20,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       setIsActiveLoading(true);
-      const response = await baseApi.get<ResponseAPI<SuccessResponse<User[]>>>(
+      const response = await baseApi.get<ResponseAPI<ResponseData<User[]>>>(
         "usuarios/all"
       );
 

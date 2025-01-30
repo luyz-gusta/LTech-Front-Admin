@@ -6,7 +6,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { useContexts } from "../../hooks/useContexts";
 import filterTable from "../../utils/filterTable";
 import Mask from "../../utils/types/mask";
-import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import BrandModal from "./components/Modal";
 import styles from "./styles.module.scss";
 import DeleteBrandModal from "./components/ModalDeleteBrand";
@@ -24,7 +24,7 @@ export default function Brands() {
   );
   const fetchBrands = async () => {
     setIsActiveLoading(true);
-    const response = await baseApi.get<ResponseAPI<SuccessResponse<Mask[]>>>(
+    const response = await baseApi.get<ResponseAPI<ResponseData<Mask[]>>>(
       "marcas/all"
     );
 
@@ -36,7 +36,7 @@ export default function Brands() {
   const toogleStatus = async (brand: Mask) => {
     setIsActiveLoading(true);
     const state = brand.ativo ? "ativar" : "desativar"
-    await baseApi.put<ResponseAPI<SuccessResponse<Mask>>>(
+    await baseApi.put<ResponseAPI<ResponseData<Mask>>>(
       `marcas/${brand._id}/${state}`
     ).then(() => {
     }).catch(error => {

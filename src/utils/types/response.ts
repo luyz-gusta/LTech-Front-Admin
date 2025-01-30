@@ -3,7 +3,12 @@ export default interface ResponseAPI<T>{
     body: T
 }
 
-export interface SuccessResponse<T>{ 
+export interface ResponseData<T>{ 
     message: string,
     data: T
+}
+
+export interface DefaultResponse<T>{
+    statusCode: number,
+    body: ResponseData<T>
 }

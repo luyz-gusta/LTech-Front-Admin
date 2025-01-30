@@ -4,7 +4,7 @@ import { baseApi } from "../../../services/api";
 import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
 import Category from "../../utils/types/category";
-import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import styles from "./styles.module.scss";
 import { useContexts } from "../../hooks/useContexts";
 import CategorydModal from "./components/Modal";
@@ -27,7 +27,7 @@ export default function Categories() {
   const fetchCategories = async () => {
     setIsActiveLoading(true);
     const response = await baseApi.get<
-      ResponseAPI<SuccessResponse<Category[]>>
+      ResponseAPI<ResponseData<Category[]>>
     >("categorias/all");
 
     setCategories(response.data.body.data);
@@ -44,7 +44,7 @@ export default function Categories() {
     setIsActiveLoading(true);
     const state = category.ativo ? "ativar" : "desativar";
     await baseApi
-      .put<ResponseAPI<SuccessResponse<Category>>>(
+      .put<ResponseAPI<ResponseData<Category>>>(
         `categorias/${category._id}/${state}`
       )
       .then(() => {})

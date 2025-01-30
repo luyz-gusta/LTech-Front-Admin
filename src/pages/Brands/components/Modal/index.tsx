@@ -1,11 +1,11 @@
 import { Modal } from "react-bootstrap";
-import { Input } from "../../../../components/Inputs/Input";
+import { Input } from "../../../../components/Input";
 import { MouseEvent, useEffect, useState } from "react";
 import FormButton from "../../../../components/Buttons/FormButton";
 import Mask from "../../../../utils/types/mask";
 import { useContexts } from "../../../../hooks/useContexts";
 import { baseApi } from "../../../../../services/api";
-import ResponseAPI, { SuccessResponse } from "../../../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../../../utils/types/response";
 import { toast } from "react-toastify";
 
 interface BrandModalProps {
@@ -44,7 +44,7 @@ export default function BrandModal({
     };
 
     await baseApi
-      .post<ResponseAPI<SuccessResponse<Mask[]>>>("marcas", body)
+      .post<ResponseAPI<ResponseData<Mask[]>>>("marcas", body)
       .then((result) => {
         console.log(result);
         if (result.status === 201) {
@@ -78,7 +78,7 @@ export default function BrandModal({
     };
 
     await baseApi
-      .put<ResponseAPI<SuccessResponse<Mask[]>>>("marcas", body)
+      .put<ResponseAPI<ResponseData<Mask[]>>>("marcas", body)
       .then((result) => {
         if (result.status === 200) {
           toast.success("Marca atualizada com sucesso !");

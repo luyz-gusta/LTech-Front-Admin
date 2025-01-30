@@ -5,7 +5,7 @@ import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
 import { useContexts } from "../../hooks/useContexts";
 import Product from "../../utils/types/product";
-import ResponseAPI, { SuccessResponse } from "../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import styles from "./styles.module.scss";
 import filterTable from "../../utils/filterTable";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default function Products() {
     const fetchProducts = async () => {
       setIsActiveLoading(true);
       const response = await baseApi.get<
-        ResponseAPI<SuccessResponse<Product[]>>
+        ResponseAPI<ResponseData<Product[]>>
       >("produtos/all");
 
       setProducts(response.data.body.data);
@@ -36,7 +36,7 @@ export default function Products() {
     setIsActiveLoading(true);
     const state = product.ativo ? "ativar" : "desativar";
     await baseApi
-      .put<ResponseAPI<SuccessResponse<Product>>>(
+      .put<ResponseAPI<ResponseData<Product>>>(
         `produtos/${product._id}/${state}`
       )
       .then(() => {})

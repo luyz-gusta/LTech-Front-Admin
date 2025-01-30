@@ -1,10 +1,10 @@
 import { Modal } from "react-bootstrap";
-import { Input } from "../../../../components/Inputs/Input";
+import { Input } from "../../../../components/Input";
 import { MouseEvent, useEffect, useState } from "react";
 import FormButton from "../../../../components/Buttons/FormButton";
 import { useContexts } from "../../../../hooks/useContexts";
 import { baseApi } from "../../../../../services/api";
-import ResponseAPI, { SuccessResponse } from "../../../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../../../utils/types/response";
 import { toast } from "react-toastify";
 import Category from "../../../../utils/types/category";
 
@@ -44,7 +44,7 @@ export default function CategorydModal({
     };
 
     await baseApi
-      .post<ResponseAPI<SuccessResponse<Category[]>>>("categorias", body)
+      .post<ResponseAPI<ResponseData<Category[]>>>("categorias", body)
       .then((result) => {
         console.log(result);
         if (result.status === 201) {
@@ -78,7 +78,7 @@ export default function CategorydModal({
     };
 
     await baseApi
-      .put<ResponseAPI<SuccessResponse<Category[]>>>("categorias", body)
+      .put<ResponseAPI<ResponseData<Category[]>>>("categorias", body)
       .then((result) => {
         if (result.status === 200) {
           toast.success("Categoria atualizada com sucesso !");

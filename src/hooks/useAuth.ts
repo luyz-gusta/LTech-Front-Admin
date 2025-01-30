@@ -1,4 +1,4 @@
-import { SuccessResponse } from './../utils/types/response';
+import { ResponseData } from './../utils/types/response';
 import { useNavigate } from "react-router-dom";
 import { baseApi } from "./../../services/api";
 import { useContexts } from "./useContexts";
@@ -19,7 +19,7 @@ export const useAuth = () => {
   ) => {
     setIsActiveLoading(true);
     try {
-      const response = await baseApi.post<ResponseAPI<SuccessResponse<User>>>("/login", {
+      const response = await baseApi.post<ResponseAPI<ResponseData<User>>>("/login", {
         usuario,
         senha: password,
       });

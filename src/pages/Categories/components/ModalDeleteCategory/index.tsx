@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { baseApi } from "../../../../../services/api";
 import Mask from "../../../../utils/types/mask";
-import ResponseAPI, { SuccessResponse } from "../../../../utils/types/response";
+import ResponseAPI, { ResponseData } from "../../../../utils/types/response";
 
 interface CategoryModalProps {
   isShow: boolean;
@@ -25,7 +25,7 @@ export default function DeleteCategoryModal({
     setLoading(true);
 
     await baseApi
-      .delete<ResponseAPI<SuccessResponse<undefined>>>(`categorias/${category?._id}`)
+      .delete<ResponseAPI<ResponseData<undefined>>>(`categorias/${category?._id}`)
       .then((result) => {
         if (result.status === 200) {
           toast.success("Categoria excluída com sucesso !");

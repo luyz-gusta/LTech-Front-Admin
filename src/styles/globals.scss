@@ -40,7 +40,7 @@ body {
   min-height: 100%;
   max-height: 100%;
 
-  aside{
+  aside {
     position: fixed;
   }
 
@@ -52,7 +52,7 @@ body {
   }
 }
 
-._loading_overlay_spinner{
+._loading_overlay_spinner {
   z-index: 2000;
 }
 
@@ -60,7 +60,38 @@ body {
   --bs-table-bg: #fff !important;
 }
 
-
 .ps-sidebar-root {
   border: none !important;
+}
+
+.inputFormStyles {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: $white-default;
+  background-clip: padding-box;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &:hover {
+    border-color: #dee2e6;
+    border-width: 2px;
+    border-radius: 0.375rem;
+  }
+
+  &:focus-within{
+    outline: 0;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 .25rem rgba($color: $primary-color, $alpha: .25);
+  }
 }
