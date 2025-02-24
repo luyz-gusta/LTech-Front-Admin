@@ -4,13 +4,13 @@ import { ToastContainer } from "react-toastify";
 import { useContexts } from "./hooks/useContexts";
 import LoadingOverlayWrapper from "react-loading-overlay-ts";
 import { useEffect } from "react";
-import { baseApi } from "../services/api";
+import { baseApi } from "./services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "swiper/css";
 import "react-toastify/dist/ReactToastify.css";
 import './styles/globals.scss'
 import './utils/errorMap'
+import 'rc-slider/assets/index.css';
 
 
 function App() {

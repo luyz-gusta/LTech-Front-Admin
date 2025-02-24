@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 import { InputPrice } from "../../../components/InputsValidation/inputPrice";
 import SwitchButton from "../../../components/Buttons/Switch";
 import { useState } from "react";
+import ImageCarousel from "../../../components/ImageCarousel";
 
 export default function CreateProduct() {
   const [isInstallmentable, setisInstallmentable] = useState<boolean>(false);
@@ -142,6 +143,9 @@ export default function CreateProduct() {
               error={errors.destaque?.message}
             />
           </div>
+          <ImageCarousel />
+
+          <button>Cadastrar</button>
         </form>
       </CreationContainer>
     </Container>

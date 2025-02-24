@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { baseApi } from "../../../../../services/api";
+import { baseApi } from "../../../../services/api";
 import Mask from "../../../../utils/types/mask";
 import ResponseAPI, { ResponseData } from "../../../../utils/types/response";
 
