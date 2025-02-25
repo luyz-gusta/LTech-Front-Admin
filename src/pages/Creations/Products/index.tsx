@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 import { InputPrice } from "../../../components/InputsValidation/inputPrice";
 import SwitchButton from "../../../components/Buttons/Switch";
 import { useState } from "react";
+import TextAreaEditor from "../../../components/TextArea";
 
 export default function CreateProduct() {
   const [isInstallmentable, setisInstallmentable] = useState<boolean>(false);
@@ -140,6 +141,13 @@ export default function CreateProduct() {
               name="destaque"
               register={register}
               error={errors.destaque?.message}
+            />
+
+            <TextAreaEditor 
+              label="Descrição"
+              name="descricao"
+              register={register}
+              error={errors.descricao?.message} 
             />
           </div>
         </form>

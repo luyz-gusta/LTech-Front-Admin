@@ -1,6 +1,7 @@
 @use "/src/styles/variables" as *;
 @use "/src/styles/mixins" as *;
-
+@use "sass:math";
+@use "sass:color"; 
 
 @mixin can-toggle-branding(
     $can-toggle-off-color: #777,
@@ -18,23 +19,23 @@
             .canToggleSwitch {
                 background-color: $can-toggle-off-color;
                 &:after {
-                    color: darken($can-toggle-off-color, 10%);
+                    color: color.scale($can-toggle-off-color, $lightness: 10%);
                 }
             }
         }
         &:hover ~ label {
-            color: darken($can-toggle-off-color, 5%);
+            color: color.scale($can-toggle-off-color, $lightness: 5%);
         }
         &:checked {
             ~ label {
                 &:hover {
-                    color: darken($can-toggle-on-color, 3%);
+                    color: color.scale($can-toggle-on-color, $lightness: 3%);
                 }
 
                 .canToggleSwitch {
-                    background-color: lighten($can-toggle-on-color, 5%);
+                    background-color: color.adjust($can-toggle-on-color, $lightness: 5%);
                     &:after {
-                        color: darken($can-toggle-on-color, 5%);
+                        color: color.scale($can-toggle-on-color, $lightness: -5%);
                     }
                 }
             }
@@ -45,7 +46,7 @@
                     .canToggleSwitch {
                         background-color: $can-toggle-on-color;
                         &:after {
-                            color: darken($can-toggle-on-color, 10%);
+                            color: color.scale($can-toggle-on-color, $lightness: 10%);
                         }
                     }
                 }
@@ -60,7 +61,7 @@
 
         .canToggleSwitch {
             transition: background-color 0.3s $can-toggle-transition;
-            background: lighten($can-toggle-off-color, 5%);
+            background: color.scale($can-toggle-off-color, $lightness: 5%);
             &:before {
                 color: $can-toggle-inactive-text;
             }
@@ -84,7 +85,7 @@
     $can-toggle-shadow: 0 3px 3px rgba(black, 0.4)
 ) {
     $can-toggle-switch-width: calc($can-toggle-width/2);
-    $can-toggle-translate3d: calc(0% +  $can-toggle-offset);
+    $can-toggle-translate3d: calc(0% + $can-toggle-offset);
 
     input[type="checkbox"] {
         &:focus ~ label,
@@ -100,11 +101,7 @@
             ~ label {
                 .canToggleSwitch {
                     &:after {
-                        transform: translate3d(
-                            calc($can-toggle-width - $can-toggle-translate3d),
-                            0,
-                            0
-                        );
+                        transform: translate3d(calc($can-toggle-width - $can-toggle-translate3d), 0, 0);
                     }
                 }
             }
@@ -130,17 +127,17 @@
             border-radius: $can-toggle-border-radius;
 
             &:before {
-                left: $can-toggle-width/2;
+                left: math.div($can-toggle-width, 2);
                 font-size: $can-toggle-switch-font-size;
                 line-height: $can-toggle-height;
-                width: $can-toggle-width/2;
+                width: math.div($can-toggle-width, 2);
                 padding: 0 12px;
             }
 
             &:after {
                 top: $can-toggle-offset;
                 left: $can-toggle-offset;
-                border-radius: $can-toggle-border-radius/2;
+                border-radius: math.div($can-toggle-border-radius, 2);
                 width: calc($can-toggle-switch-width - $can-toggle-offset);
                 line-height: $can-toggle-height - ($can-toggle-offset * 2);
                 font-size: $can-toggle-switch-font-size;
@@ -230,12 +227,18 @@
     @include can-toggle-branding;
     &.canToggleSizeLarge {
         @include can-toggle-appearance(
-            100%, // Toggle width
-            50px, // Toggle height
-            4px, // Toggle border radius
-            2px, // Offset (distance btw switch and box)
-            14px, // Label font size
-            14px, // Switch font size
+            100%,
+            // Toggle width
+            50px,
+            // Toggle height
+            4px,
+            // Toggle border radius
+            2px,
+            // Offset (distance btw switch and box)
+            14px,
+            // Label font size
+            14px,
+            // Switch font size
             0 4px 4px rgba(black, 0.4) // Switch shadow on hover/focus
         );
     }
