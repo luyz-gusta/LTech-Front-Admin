@@ -1,4 +1,4 @@
-import { baseApi } from "../../../../../services/api";
+import { baseApi } from "../../../../services/api";
 import Category from "../../../../utils/types/category";
 import Mask from "../../../../utils/types/mask";
 import { Options } from "../../../../utils/types/options";

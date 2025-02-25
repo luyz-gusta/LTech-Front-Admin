@@ -1,6 +1,6 @@
 import { ResponseData } from './../utils/types/response';
 import { useNavigate } from "react-router-dom";
-import { baseApi } from "./../../services/api";
+import { baseApi } from "../services/api";
 import { useContexts } from "./useContexts";
 import User from "../utils/types/user";
 import ResponseAPI from "../utils/types/response";
@@ -38,6 +38,7 @@ export const useAuth = () => {
       navigate(route);
     } catch (error) {
       const axiosError = error as AxiosError<{ body: { error?: {message: string, email?: string, senha?: string}, message: string }, statusCode: number }>;
+      console.error("Login", error);
       console.error("Login failed", axiosError);
       if (axiosError.response) {
         if(axiosError.response.data.body.error != undefined){

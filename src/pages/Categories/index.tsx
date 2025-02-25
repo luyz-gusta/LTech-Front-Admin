@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { baseApi } from "../../../services/api";
+import { baseApi } from "../../services/api";
 import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
 import Category from "../../utils/types/category";

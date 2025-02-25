@@ -9,8 +9,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("userStorage");
-    if (!storedUser) {
+    const storedLocalUser = localStorage.getItem("userStorage");
 
+    if (!storedUser && !storedLocalUser) {
       toast.info("Realize o login novamente para acessar o sistema.");
       navigate("/");
     }

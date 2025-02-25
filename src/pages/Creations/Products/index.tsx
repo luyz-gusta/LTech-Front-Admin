@@ -11,6 +11,7 @@ import { InputPrice } from "../../../components/InputsValidation/inputPrice";
 import SwitchButton from "../../../components/Buttons/Switch";
 import { useState } from "react";
 import TextAreaEditor from "../../../components/TextArea";
+import ImageCarousel from "../../../components/ImageCarousel";
 
 export default function CreateProduct() {
   const [isInstallmentable, setisInstallmentable] = useState<boolean>(false);
@@ -143,13 +144,15 @@ export default function CreateProduct() {
               error={errors.destaque?.message}
             />
 
-            <TextAreaEditor 
+            <TextAreaEditor
               label="Descrição"
               name="descricao"
               register={register}
-              error={errors.descricao?.message} 
+              error={errors.descricao?.message}
             />
           </div>
+          <ImageCarousel />
+          <button>Cadastrar</button>
         </form>
       </CreationContainer>
     </Container>

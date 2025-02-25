@@ -3,7 +3,7 @@ import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
 import User from "../../utils/types/user";
 import styles from "./styles.module.scss";
-import { baseApi } from "../../../services/api";
+import { baseApi } from "../../services/api";
 import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { useContexts } from "../../hooks/useContexts";
