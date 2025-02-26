@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Slider from "rc-slider";
 import React, { useCallback, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import Cropper from "react-easy-crop";
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./styles.module.scss";
+import Cropper from "react-cropper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const ImageCarousel: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -100,7 +101,12 @@ const ImageCarousel: React.FC = () => {
     <div className="image-carousel">
       <div className="d-flex align-items-center justify-content-between w-100 mt-3">
         <h5>Imagens do Produto</h5>
-        <Button variant="success" size="sm" className="px-5" onClick={() => setShowModal(true)}>
+        <Button
+          variant="success"
+          size="sm"
+          className="px-5"
+          onClick={() => setShowModal(true)}
+        >
           Adicionar
         </Button>
       </div>
@@ -110,7 +116,7 @@ const ImageCarousel: React.FC = () => {
         spaceBetween={15}
         navigation={true}
         modules={[Pagination, Navigation]}
-          pagination={{ clickable: true }}
+        pagination={{ clickable: true }}
       >
         {images.map((img, idx) => (
           <SwiperSlide key={idx} className={styles.imgProduct}>
@@ -132,17 +138,15 @@ const ImageCarousel: React.FC = () => {
       </Swiper>
 
       <Modal show={showCropper} onHide={() => {}} centered>
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title>Ajustar Imagem</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {imageToCrop && (
             <div className={`${styles.containerCropper}`}>
               <Cropper
-                image={imageToCrop}
-                crop={crop}
-                zoom={zoom}
-                aspect={1 / 1}
+                ref={imageToCrop}
+                aspect={1}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
