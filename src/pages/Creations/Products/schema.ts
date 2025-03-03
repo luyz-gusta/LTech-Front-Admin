@@ -3,10 +3,10 @@ import { z } from "zod";
 const schema = z
   .object({
     nome: z.string().min(3).max(50),
-    descricao: z.string().min(3),
+    descricao: z.string().min(10),
     precoVenda: z.string(),
     precoPromocao: z.string().nullable(),
-    qntdParcelas: z.number().optional(),
+    quantidadeParcelas: z.string().optional(),
     usuario: z.string(),
     marca: z.string(),
     categoria: z.string(),

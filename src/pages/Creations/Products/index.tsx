@@ -12,6 +12,7 @@ import SwitchButton from "../../../components/Buttons/Switch";
 import { useState } from "react";
 import TextAreaEditor from "../../../components/TextArea";
 import ImageCarousel from "../../../components/ImageCarousel";
+import FormButton from "../../../components/Buttons/FormButton";
 
 export default function CreateProduct() {
   const [isInstallmentable, setisInstallmentable] = useState<boolean>(false);
@@ -107,7 +108,7 @@ export default function CreateProduct() {
               register={register}
               setValue={setValue}
               trigger={trigger}
-              error={errors.marca?.message}
+              error={errors.estadoProduto?.message}
             />
 
             <SwitchButton
@@ -123,8 +124,8 @@ export default function CreateProduct() {
                 type="number"
                 placeholder="Digite a quantidade de parcelas ..."
                 label="Quantidade de parcelas:"
-                name="qntdParcelas"
-                error={errors.qntdParcelas?.message}
+                name="quantidadeParcelas"
+                error={errors.quantidadeParcelas?.message}
                 register={register}
                 required={isInstallmentable}
               />
@@ -145,14 +146,25 @@ export default function CreateProduct() {
             />
 
             <TextAreaEditor
+              trigger={trigger}
               label="Descrição"
               name="descricao"
+              setValue={setValue}
               register={register}
               error={errors.descricao?.message}
             />
           </div>
-          <ImageCarousel />
-          <button>Cadastrar</button>
+          <ImageCarousel
+            name="fotos"
+            setValue={setValue}
+            error={errors.fotos?.message}
+            trigger={trigger}
+          />
+          <FormButton
+            text={"Cadastrar"}
+            onClick={() => {}}
+            specificClass="w-auto fs-5 p-2 px-5"
+          />
         </form>
       </CreationContainer>
     </Container>

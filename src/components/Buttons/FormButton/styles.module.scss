@@ -11,4 +11,9 @@
 
     color: $white-default;
     background-color: $fourth-color;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: rgba($color: $fourth-color, $alpha: 0.75);
+    }
 }

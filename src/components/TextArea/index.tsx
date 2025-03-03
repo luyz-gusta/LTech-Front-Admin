@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RegisterOptions, UseFormRegister } from "react-hook-form";
 import { Editor } from "@tinymce/tinymce-react";
+import {
+  RegisterOptions,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+} from "react-hook-form";
 
 interface TextAreaEditorProps {
   label: string;
@@ -8,6 +13,8 @@ interface TextAreaEditorProps {
   error?: string;
   register: UseFormRegister<any>;
   rules?: RegisterOptions;
+  trigger: UseFormTrigger<any>;
+  setValue: UseFormSetValue<any>;
 }
 export default function TextAreaEditor({
   name,
@@ -15,6 +22,8 @@ export default function TextAreaEditor({
   register,
   rules,
   error,
+  trigger,
+  setValue,
 }: TextAreaEditorProps) {
   return (
     <div className="col-12 col-md-12 mb-4">
@@ -25,15 +34,25 @@ export default function TextAreaEditor({
         apiKey="tqw9pl6nt575q89nul09v4nn3zugt3ae2p31ehyvpi6xivmp"
         initialValue=""
         {...register(name, rules)}
+        id={name}
+        onEditorChange={(e) => {
+          setValue(name, e);
+          trigger(name);
+        }}
         init={{
           height: 500,
           max_height: 500,
           min_height: 500,
           menubar: true,
           plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste code help wordcount",
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "preview",
+            "anchor",
           ],
           toolbar:
             "undo redo | formatselect | bold italic backcolor | \
