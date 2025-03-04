@@ -6,7 +6,7 @@ import Login from "../pages/Login";
 import Products from "../pages/Products";
 import Users from "../pages/Users";
 import CreateProduct from "../pages/Creations/Products";
-import RootLayout from "../components/Layout/RootLayout";
+import RootLayout from "../components/layout/RootLayout";
 
 const router = createBrowserRouter([
   {
