@@ -72,8 +72,13 @@ const ImageCarousel = ({
       const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
       if (croppedCanvas) {
         const croppedImage = croppedCanvas.toDataURL("image/jpeg");
+
         setImages((prev) => [...prev, croppedImage]);
-        setValue(name, images);
+
+        const imageList = images;
+        imageList.push(croppedImage);
+        setValue(name, imageList);
+
         trigger(name);
       }
     }
@@ -82,6 +87,9 @@ const ImageCarousel = ({
   };
 
   const handleRemoveImage = (index: number) => {
+    const imageList = images.filter((_, i) => i !== index);
+    setValue(name, imageList);
+
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 

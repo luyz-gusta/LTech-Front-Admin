@@ -9,28 +9,34 @@ import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import styles from "./styles.module.scss";
 import filterTable from "../../utils/filterTable";
 import { useNavigate } from "react-router-dom";
+import DeleteProductModal from "./components/ModalDeleteProduct";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsFixed, setProductsFixed] = useState<Product[]>([]);
   const { setIsActiveLoading } = useContexts();
   const [textInput, setTextInput] = useState<string>("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(
+    undefined
+  );
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const fetchProducts = async () => {
+    setIsActiveLoading(true);
+    const response = await baseApi.get<ResponseAPI<ResponseData<Product[]>>>(
+      "produtos/all"
+    );
+
+    setProducts(response.data.body.data);
+    setProductsFixed(response.data.body.data);
+    setIsActiveLoading(false);
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      setIsActiveLoading(true);
-      const response = await baseApi.get<
-        ResponseAPI<ResponseData<Product[]>>
-      >("produtos/all");
-
-      setProducts(response.data.body.data);
-      setProductsFixed(response.data.body.data);
-      setIsActiveLoading(false);
-    };
-
     fetchProducts();
-  }, [setIsActiveLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toogleStatus = async (product: Product) => {
     setIsActiveLoading(true);
@@ -158,7 +164,12 @@ export default function Products() {
                       <button>
                         <FaRegEdit />
                       </button>
-                      <button>
+                      <button
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setIsShowDeleteModal(true);
+                        }}
+                      >
                         <FaRegTrashAlt />
                       </button>
                     </div>
@@ -169,6 +180,13 @@ export default function Products() {
           </tbody>
         </table>
       </div>
+
+      <DeleteProductModal
+        fetch={fetchProducts}
+        product={selectedProduct}
+        isShow={isShowDeleteModal}
+        setIsShow={setIsShowDeleteModal}
+      />
     </Container>
   );
 }

@@ -40,6 +40,7 @@ export default function CreateProduct() {
 
   useEffect(() => {
     setValue("usuario", user?._id || "");
+    setValue("precoPromocao", null);
   }, [setValue, user]);
 
   const onSubmit = async (data: FormData) => {
