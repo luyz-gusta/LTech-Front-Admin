@@ -1,22 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  RegisterOptions,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger,
-} from "react-hook-form";
-import formatPrice from "../../../utils/formatPrice";
+import { useState } from "react";
+import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
+import ReactInputMask from "react-input-mask-next";
 
 interface InputPriceProps {
-  type: string;
   label: string;
   placeholder: string;
   isDisabled?: boolean;
   name: string;
-  register: UseFormRegister<any>;
   trigger: UseFormTrigger<any>;
   error?: string;
-  rules?: RegisterOptions;
   required?: boolean;
   setValue: UseFormSetValue<any>;
 }
@@ -25,33 +18,47 @@ export function InputPrice({
   name,
   placeholder,
   label,
-  type,
-  register,
   isDisabled = false,
-  rules,
   error,
   required = true,
   trigger,
   setValue,
 }: InputPriceProps) {
+  const [formattedValue, setFormattedValue] = useState("");
+
+  const handleChange = (valueInput: string, name: string) => {
+    const value = valueInput.replace(/\D/g, "");
+    const numericValue = (parseFloat(value) / 100).toFixed(2);
+    let formattedValue = numericValue.replace(".", ",");
+    formattedValue = formattedValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+
+    setValue(name, Number(numericValue));
+    trigger(name);
+
+    return formattedValue;
+  };
+
   return (
     <div className="col-12 col-md-6 mb-4">
       <label htmlFor={name} className="form-label fw-medium">
         {label}
         {required && <span className="text-danger">*</span>}
       </label>
-      <input
+
+      <ReactInputMask
+        type="tel"
+        maskPlaceholder={null}
+        mask={""}
         autoComplete="off"
         className="inputFormStyles border-2"
         placeholder={placeholder}
         disabled={isDisabled}
-        type={type}
-        {...register(name, rules)}
+        // {...register(name, rules)}
+        value={formattedValue}
         id={name}
         onChange={(e) => {
-          const formattedValue = formatPrice(e.target.value);
-          setValue(name, formattedValue);
-          trigger(name);
+          const formatted = handleChange(e.target.value, name);
+          setFormattedValue(formatted);
         }}
       />
       {error && <p className="my-1 text-danger">{error}</p>}

@@ -1,15 +1,25 @@
-import styles from "./styles.module.scss";
-import imgSection from "../../assets/ltech-section.jpg";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
+import imgSection from "../../assets/ltech-section.jpg";
 import { useAuth } from "../../hooks/useAuth";
+import styles from "./styles.module.scss";
 
 export default function Login() {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
   const auth = useAuth();
+
+  useEffect(() => {
+    const userStorage = localStorage.getItem("userStorage");
+
+    if (userStorage) {
+      navigate("/admin");
+    }
+  }, [navigate]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

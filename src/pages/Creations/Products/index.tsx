@@ -1,22 +1,30 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import FormButton from "../../../components/Buttons/FormButton";
+import SwitchButton from "../../../components/Buttons/Switch";
 import { Container } from "../../../components/Container";
 import CreationContainer from "../../../components/CreationContainer";
+import ImageCarousel from "../../../components/ImageCarousel";
 import { Input } from "../../../components/InputsValidation/Input";
+import { InputPrice } from "../../../components/InputsValidation/inputPrice";
 import { SelectFilter } from "../../../components/InputsValidation/selectFilter";
+import TextAreaEditor from "../../../components/TextArea";
+import { useContexts } from "../../../hooks/useContexts";
+import { baseApi } from "../../../services/api";
+import Product from "../../../utils/types/product";
+import ResponseAPI, { ResponseData } from "../../../utils/types/response";
 import { useFetchOptions } from "./hooks/useFetchOptions";
 import { FormData, schema } from "./schema";
 import styles from "./styles.module.scss";
-import { InputPrice } from "../../../components/InputsValidation/inputPrice";
-import SwitchButton from "../../../components/Buttons/Switch";
-import { useState } from "react";
-import TextAreaEditor from "../../../components/TextArea";
-import ImageCarousel from "../../../components/ImageCarousel";
-import FormButton from "../../../components/Buttons/FormButton";
 
 export default function CreateProduct() {
-  const [isInstallmentable, setisInstallmentable] = useState<boolean>(false);
+  const [isInstallmentable, setIsInstallmentable] = useState<boolean>(false);
   const { brandsOptions, categoriesOptions } = useFetchOptions();
+  const { setIsActiveLoading, user } = useContexts();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -30,8 +38,38 @@ export default function CreateProduct() {
     mode: "onChange",
   });
 
-  const onSubmit = (data: FormData) => {
+  useEffect(() => {
+    setValue("usuario", user?._id || "");
+  }, [setValue, user]);
+
+  const onSubmit = async (data: FormData) => {
+    const createProduct = async (product: FormData) => {
+      setIsActiveLoading(true);
+
+      await baseApi
+        .post<ResponseAPI<ResponseData<Product[]>>>("produtos", product)
+        .then((result) => {
+          console.log(result);
+          if (result.status === 201) {
+            toast.success("Categoria criada com sucesso !");
+            navigate("/admin/produtos");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.data.body.error.nome != undefined) {
+            toast.error(error.response.data.body.error.nome);
+          } else {
+            toast.error(error.response.data.body.error.message);
+          }
+        })
+        .finally(() => {
+          setIsActiveLoading(false);
+        });
+    };
     console.log(data);
+
+    createProduct(data);
   };
 
   return (
@@ -74,23 +112,19 @@ export default function CreateProduct() {
             />
 
             <InputPrice
-              type="tel"
               placeholder="0,00"
               label="Preço de venda:"
               name="precoVenda"
               error={errors.precoVenda?.message}
-              register={register}
               setValue={setValue}
               trigger={trigger}
             />
 
             <InputPrice
-              type="tel"
               placeholder="0,00"
               label="Preço em promoção:"
               name="precoPromocao"
               error={errors.precoVenda?.message}
-              register={register}
               setValue={setValue}
               trigger={trigger}
               required={false}
@@ -116,7 +150,7 @@ export default function CreateProduct() {
               name="possuiParcelamento"
               register={register}
               checked={isInstallmentable}
-              setChecked={setisInstallmentable}
+              setChecked={setIsInstallmentable}
             />
 
             {isInstallmentable && (
@@ -128,6 +162,9 @@ export default function CreateProduct() {
                 error={errors.quantidadeParcelas?.message}
                 register={register}
                 required={isInstallmentable}
+                rules={{
+                  setValueAs: (value) => parseInt(value, 10) || 0,
+                }}
               />
             )}
 

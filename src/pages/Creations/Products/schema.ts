@@ -4,9 +4,9 @@ const schema = z
   .object({
     nome: z.string().min(3).max(50),
     descricao: z.string().min(10),
-    precoVenda: z.string(),
-    precoPromocao: z.string().nullable(),
-    quantidadeParcelas: z.string().optional(),
+    precoVenda: z.number(),
+    precoPromocao: z.number().nullable(),
+    quantidadeParcelas: z.number().optional(),
     usuario: z.string(),
     marca: z.string(),
     categoria: z.string(),
