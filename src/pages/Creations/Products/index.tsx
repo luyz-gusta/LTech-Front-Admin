@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormButton from "../../../components/Buttons/FormButton";
 import SwitchButton from "../../../components/Buttons/Switch";
@@ -20,11 +20,13 @@ import { useFetchOptions } from "./hooks/useFetchOptions";
 import { FormData, schema } from "./schema";
 import styles from "./styles.module.scss";
 
-export default function CreateProduct() {
+export default function CreateOrEditProduct() {
   const [isInstallmentable, setIsInstallmentable] = useState<boolean>(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const { brandsOptions, categoriesOptions } = useFetchOptions();
   const { setIsActiveLoading, user } = useContexts();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const {
     handleSubmit,
@@ -32,54 +34,82 @@ export default function CreateProduct() {
     register,
     setValue,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onChange",
   });
 
+  const fetchProducts = async () => {
+    setIsEditMode(true);
+    setIsActiveLoading(true);
+    await baseApi
+      .get<ResponseAPI<ResponseData<Product>>>(`produtos/${id}`)
+      .then(({ data }) => {
+        const produto = data.body.data;
+        console.log(getValues());
+        setValue("nome", produto.nome);
+        setValue("descricao", produto.descricao);
+        setValue("precoVenda", produto.precoVenda);
+        setValue("precoPromocao", produto.precoPromocao ?? null);
+        setValue("quantidadeParcelas", produto.qntdParcelas || 0);
+        setValue("fotos", produto.fotos);
+        setValue("categoria", produto.categoria?._id);
+        setValue("marca", produto.marca?._id);
+        setValue("usuario", produto.usuario?._id);
+        setValue("estadoProduto", produto.estadoProduto);
+        setValue("destaque", produto.destaque ?? false);
+        setValue("emEstoque", produto.emEstoque ?? true);
+        if (produto.qntdParcelas) setIsInstallmentable(true);
+      })
+      .catch(() => {
+        toast.error("Erro ao carregar produto.");
+        navigate("/admin/produtos");
+      })
+      .finally(() => setIsActiveLoading(false));
+  };
+
   useEffect(() => {
-    setValue("usuario", user?._id || "");
-    setValue("precoPromocao", null);
-  }, [setValue, user]);
+    if (id) {
+      fetchProducts();
+    } else {
+      setValue("usuario", user?._id || "");
+      setValue("precoPromocao", null);
+    }
+  }, [id, setValue, user]);
 
   const onSubmit = async (data: FormData) => {
-    const createProduct = async (product: FormData) => {
-      setIsActiveLoading(true);
+    setIsActiveLoading(true);
 
-      await baseApi
-        .post<ResponseAPI<ResponseData<Product[]>>>("produtos", product)
-        .then((result) => {
-          console.log(result);
-          if (result.status === 201) {
-            toast.success("Categoria criada com sucesso !");
-            navigate("/admin/produtos");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.data.body.error.nome != undefined) {
-            toast.error(error.response.data.body.error.nome);
-          } else {
-            toast.error(error.response.data.body.error.message);
-          }
-        })
-        .finally(() => {
-          setIsActiveLoading(false);
-        });
-    };
-    console.log(data);
+    const request = isEditMode
+      ? baseApi.put(`/produtos/${id}`, data)
+      : baseApi.post("produtos", data);
 
-    createProduct(data);
+    request
+      .then((result) => {
+        const msg = isEditMode
+          ? "Produto atualizado com sucesso!"
+          : "Produto cadastrado com sucesso!";
+        toast.success(msg);
+        navigate("/admin/produtos");
+      })
+      .catch((error) => {
+        const err = error.response.data.body.error;
+        toast.error(err?.nome || err?.message || "Erro inesperado");
+      })
+      .finally(() => setIsActiveLoading(false));
   };
 
   return (
     <Container>
-      <CreationContainer title="Novo Produto" subTitle="Cadastrar Produto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={`${styles.formInputs}`}
-        >
+      <CreationContainer
+        title={isEditMode ? "Editar Produto" : "Novo Produto"}
+        subTitle={
+          isEditMode ? "Atualizar informações do produto" : "Cadastrar Produto"
+        }
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.formInputs}>
           <div className="row mt-3">
             <Input
               type="text"
@@ -125,7 +155,7 @@ export default function CreateProduct() {
               placeholder="0,00"
               label="Preço em promoção:"
               name="precoPromocao"
-              error={errors.precoVenda?.message}
+              error={errors.precoPromocao?.message}
               setValue={setValue}
               trigger={trigger}
               required={false}
@@ -163,9 +193,7 @@ export default function CreateProduct() {
                 error={errors.quantidadeParcelas?.message}
                 register={register}
                 required={isInstallmentable}
-                rules={{
-                  setValueAs: (value) => parseInt(value, 10) || 0,
-                }}
+                rules={{ setValueAs: (value) => parseInt(value, 10) || 0 }}
               />
             )}
 
@@ -173,14 +201,14 @@ export default function CreateProduct() {
               label="Em Estoque:"
               name="emEstoque"
               register={register}
-              error={errors.emEstoque?.message}
+              error={errors.emEstoque?.message as string | undefined}
             />
 
             <SwitchButton
               label="Produto em destaque:"
               name="destaque"
               register={register}
-              error={errors.destaque?.message}
+              error={errors.destaque?.message as string | undefined}
             />
 
             <TextAreaEditor
@@ -192,14 +220,17 @@ export default function CreateProduct() {
               error={errors.descricao?.message}
             />
           </div>
+
           <ImageCarousel
             name="fotos"
+            watch={watch}
             setValue={setValue}
             error={errors.fotos?.message}
             trigger={trigger}
           />
+
           <FormButton
-            text={"Cadastrar"}
+            text={isEditMode ? "Atualizar" : "Cadastrar"}
             onClick={() => {}}
             specificClass="w-auto fs-5 p-2 px-5"
           />

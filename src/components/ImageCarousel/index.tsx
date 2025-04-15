@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "cropperjs/dist/cropper.css";
 import Slider from "rc-slider";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
-import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
+import { UseFormSetValue, UseFormTrigger, UseFormWatch } from "react-hook-form";
 import "swiper/css";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,6 +12,7 @@ import styles from "./styles.module.scss";
 
 interface ImageCaroselProps {
   setValue: UseFormSetValue<any>;
+  watch: UseFormWatch<any>;
   error?: string;
   name: string;
   trigger: UseFormTrigger<any>;
@@ -21,6 +22,7 @@ const ImageCarousel = ({
   setValue,
   name,
   error,
+  watch,
   trigger,
 }: ImageCaroselProps) => {
   const [images, setImages] = useState<string[]>([]);
@@ -30,6 +32,14 @@ const ImageCarousel = ({
   const [showModal, setShowModal] = useState(false);
   const cropperRef = useRef<any>(null);
   const swiperRef = useRef<any>(null);
+
+  const watchedImages = watch(name);
+
+  useEffect(() => {
+    if (Array.isArray(watchedImages)) {
+      setImages(watchedImages);
+    }
+  }, [watchedImages]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -67,18 +77,15 @@ const ImageCarousel = ({
     }
   };
 
-  const handleCropSave = async () => {
+  const handleCropSave = () => {
     if (cropperRef.current) {
       const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
       if (croppedCanvas) {
         const croppedImage = croppedCanvas.toDataURL("image/jpeg");
+        const updatedImages = [...images, croppedImage];
 
-        setImages((prev) => [...prev, croppedImage]);
-
-        const imageList = images;
-        imageList.push(croppedImage);
-        setValue(name, imageList);
-
+        setImages(updatedImages);
+        setValue(name, updatedImages);
         trigger(name);
       }
     }
@@ -89,8 +96,7 @@ const ImageCarousel = ({
   const handleRemoveImage = (index: number) => {
     const imageList = images.filter((_, i) => i !== index);
     setValue(name, imageList);
-
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages(imageList);
   };
 
   return (

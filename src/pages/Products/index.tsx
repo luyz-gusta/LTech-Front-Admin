@@ -161,7 +161,11 @@ export default function Products() {
                 <td className="align-middle text-center">
                   <div className="d-flex justify-content-center">
                     <div className={`${styles.actions}`}>
-                      <button>
+                      <button
+                        onClick={() => {
+                          navigate(`/admin/editar-produto/${product._id}`);
+                        }}
+                      >
                         <FaRegEdit />
                       </button>
                       <button
