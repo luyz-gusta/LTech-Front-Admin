@@ -88,11 +88,10 @@ export default function CreateOrEditProduct() {
       : baseApi.post("produtos", data);
 
     request
-      .then((result) => {
+      .then(() => {
         const msg = isEditMode
           ? "Produto atualizado com sucesso!"
           : "Produto cadastrado com sucesso!";
-        console.log(result);
         toast.success(msg);
         navigate("/admin/produtos");
       })
