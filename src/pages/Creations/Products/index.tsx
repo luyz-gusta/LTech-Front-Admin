@@ -49,6 +49,7 @@ export default function CreateOrEditProduct() {
       .then(({ data }) => {
         const produto = data.body.data;
         console.log(getValues());
+        console.log(produto);
         setValue("nome", produto.nome);
         setValue("descricao", produto.descricao);
         setValue("precoVenda", produto.precoVenda);
@@ -91,6 +92,7 @@ export default function CreateOrEditProduct() {
         const msg = isEditMode
           ? "Produto atualizado com sucesso!"
           : "Produto cadastrado com sucesso!";
+        console.log(result);
         toast.success(msg);
         navigate("/admin/produtos");
       })

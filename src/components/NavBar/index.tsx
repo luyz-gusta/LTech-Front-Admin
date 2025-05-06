@@ -1,3 +1,7 @@
+import { AiOutlineShop } from "react-icons/ai";
+import { FaRegFolder, FaRegUser } from "react-icons/fa";
+import { IoExitOutline } from "react-icons/io5";
+import { LuTags } from "react-icons/lu";
 import {
   Menu,
   menuClasses,
@@ -6,19 +10,14 @@ import {
   sidebarClasses,
 } from "react-pro-sidebar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaRegFolder, FaRegUser } from "react-icons/fa";
-import { LuTags } from "react-icons/lu";
-import { AiOutlineShop } from "react-icons/ai";
-import { GoGear } from "react-icons/go";
-import { IoExitOutline } from "react-icons/io5";
-import { useAuth } from "../../hooks/useAuth";
 import logo from "../../assets/logo-nav.svg";
+import { useAuth } from "../../hooks/useAuth";
 import styles from "./styles.module.scss";
 
 export default function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const auth = useAuth()
+  const auth = useAuth();
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -33,7 +32,7 @@ export default function NavBar() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingBottom: '12px',
+          paddingBottom: "12px",
           border: "none !important",
           height: "100% !important",
           minHeight: "100vh",
@@ -143,16 +142,13 @@ export default function NavBar() {
           },
         }}
       >
-        <MenuItem
+        {/* <MenuItem
           icon={<GoGear size={20} />}
           component={<Link to="/admin/conta" />}
         >
           Configurações
-        </MenuItem>
-        <MenuItem
-          icon={<IoExitOutline size={20} />}
-          onClick={auth.logout}
-        >
+        </MenuItem> */}
+        <MenuItem icon={<IoExitOutline size={20} />} onClick={auth.logout}>
           Sair
         </MenuItem>
       </Menu>

@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { Container } from "../../components/Container";
 import SectionTitle from "../../components/SectionTitle";
+import { useContexts } from "../../hooks/useContexts";
+import { baseApi } from "../../services/api";
+import filterTable from "../../utils/filterTable";
+import ResponseAPI, { ResponseData } from "../../utils/types/response";
 import User from "../../utils/types/user";
 import styles from "./styles.module.scss";
-import { baseApi } from "../../services/api";
-import ResponseAPI, { ResponseData } from "../../utils/types/response";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { useContexts } from "../../hooks/useContexts";
-import filterTable from "../../utils/filterTable";
-import { useNavigate } from "react-router-dom";
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [usersFixed, setUsersFixed] = useState<User[]>([]);
   const { setIsActiveLoading } = useContexts();
   const [textInput, setTextInput] = useState<string>("");
-  const navigate = useNavigate()
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,7 +37,7 @@ export default function Users() {
   return (
     <Container>
       <SectionTitle
-        onClick={() => navigate('/admin/criar-usuario')}
+        onClick={() => alert("Função fora no ar no momento!")}
         title="Usuário"
         valueInput={textInput}
         onChange={handleFilterUsers}
@@ -78,13 +76,13 @@ export default function Users() {
               >
                 Status
               </th>
-              <th
+              {/* <th
                 scope="col"
                 className="col text-center"
                 style={{ cursor: "pointer" }}
               >
                 Ações
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="table-group-divider">
@@ -120,7 +118,7 @@ export default function Users() {
                     </span>
                   </div>
                 </td>
-                <td className="align-middle text-center">
+                {/* <td className="align-middle text-center">
                   <div className="d-flex justify-content-center">
                     <div className={`${styles.actions}`}>
                       <button>
@@ -131,7 +129,7 @@ export default function Users() {
                       </button>
                     </div>
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
